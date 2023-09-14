@@ -1,18 +1,23 @@
 import React from 'react'
 import noprofile from '../icons/noprofile.png'
 import wishlist from '../icons/wishlist.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Navbar() {
 
     let token = localStorage.getItem('authToken')
+    const navigate = useNavigate()
 
+    const handleLogout = async () => {
+        await localStorage.removeItem('authToken')
+        navigate('/login')
+    }
 
     return (
         <>
             <div className="navbar bg-base-100 shadow-xl">
                 <div className="flex-1">
-                    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                    <a className="btn btn-ghost normal-case text-xl">BiBox</a>
                     <div className="gap-2 mx-5 flex">
                         <div className="form-control">
                             <input type="text" placeholder="Search" className="input input-bordered lg:min-w-[400px]" />
@@ -105,7 +110,7 @@ function Navbar() {
                         {
                             token ?
                                 <>
-                                    <li><a>Logout</a></li>
+                                    <li onClick={handleLogout}><p>Logout</p></li>
                                 </> : null
                         }
                         {

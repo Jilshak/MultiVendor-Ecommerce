@@ -1,4 +1,6 @@
 import React from 'react'
+import Rating from './Rating'
+
 
 function Featured() {
     return (
@@ -9,6 +11,9 @@ function Featured() {
                 <div className='flex'>
                     <p className='text-lg  font-semibold line-through'>$299</p>
                     <p className='text-2xl relative right-7 bottom-1 font-semibold'>$199</p>
+                </div>
+                <div>
+                    <Rating />
                 </div>
                 <div className="card-actions justify-start">
                     <button className="btn btn-sm btn-outline">ADD TO CART</button>
