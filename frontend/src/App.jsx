@@ -6,6 +6,11 @@ import SignUpPage from './Pages/SignUpPage'
 import ProtectedRoutes from './utils/ProtectedRoutes'
 import CategoriesPage from './Pages/CategoriesPage'
 import ProductPage from './Pages/ProductPage'
+import CartPage from './Pages/CartPage'
+import WishlistPage from './Pages/WishlistPage'
+import ProfilePage from './Pages/ProfilePage'
+import CheckoutPage from './Pages/CheckoutPage'
+import OrderHistory from './Pages/OrderHistory'
 
 
 
@@ -19,7 +24,12 @@ function App() {
       <Route element={<ProtectedRoutes />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/categories' element={<CategoriesPage />} />
-        <Route path='/product' element={<ProductPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/product/:id?' element={<ProductPage />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/wishlist' element={<WishlistPage />} />
+        <Route path='/checkout' element={<CheckoutPage />} />
+        <Route path='/orders' element={<OrderHistory />} />
       </Route>
     </Routes>
   )
