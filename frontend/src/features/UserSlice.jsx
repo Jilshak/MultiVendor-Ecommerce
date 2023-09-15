@@ -3,9 +3,20 @@ import api from '../services/Axios'
 import Swal from 'sweetalert2'
 
 export const Register = createAsyncThunk('register',
-    async (credentials) => {
+    async ({ username, password, firstname, lastname, role }) => {
         try {
-            const request = await api.post(`user/`, credentials)
+            console.log("This is the role: ", role==='3')
+            let credential = {
+                username: username,
+                password: password,
+                firstname: firstname,
+                lastname: lastname,
+                is_seller: role === '2',
+                is_reseller: role === '3',
+                is_all: role === '4'
+
+            }
+            const request = await api.post(`user/`, credential)
             if (request.status == 201) {
                 await Swal.fire(
                     {

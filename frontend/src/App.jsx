@@ -4,8 +4,8 @@ import HomePage from './Pages/HomePage'
 import LoginPage from './Pages/LoginPage'
 import SignUpPage from './Pages/SignUpPage'
 import ProtectedRoutes from './utils/ProtectedRoutes'
-import Navbar from './Components/Navbar'
 import CategoriesPage from './Pages/CategoriesPage'
+import ProductPage from './Pages/ProductPage'
 
 
 
@@ -19,6 +19,7 @@ function App() {
       <Route element={<ProtectedRoutes />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/categories' element={<CategoriesPage />} />
+        <Route path='/product' element={<ProductPage />} />
       </Route>
     </Routes>
   )

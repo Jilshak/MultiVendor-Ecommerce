@@ -4,7 +4,7 @@ from .models import CustomUser
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ['username', 'email', 'password', 'profile_image', 'is_staff','id']
+        fields = '__all__'
         model = CustomUser
 
     def create(self, validated_data):
