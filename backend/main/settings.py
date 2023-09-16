@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'corsheaders',
+    'products',
 ]
 
 SIMPLE_JWT = {

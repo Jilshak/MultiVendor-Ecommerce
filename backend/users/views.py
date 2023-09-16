@@ -14,8 +14,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['name'] = user.username
-        token['is_staff'] = user.is_staff
+        token['is_superuser'] = user.is_superuser
+        token['is_buyer'] = user.is_buyer
+        token['is_seller'] = user.is_seller
+        token['is_reseller'] = user.is_reseller
+        token['is_all'] = user.is_all
         return token
     
 class MyTokenObtainPairView(TokenObtainPairView):

@@ -13,6 +13,10 @@ class CustomUser(AbstractUser):
     is_reseller = models.BooleanField(default=False)
     is_all = models.BooleanField(default=False)
     
+    
+    is_varified = models.BooleanField(default=False)
+    
+    
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
     objects = UserManager()

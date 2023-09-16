@@ -2,10 +2,12 @@ import React from 'react'
 import noprofile from '../icons/noprofile.png'
 import wishlist from '../icons/wishlist.png'
 import { Link, useNavigate } from 'react-router-dom'
+import jwtDecode from 'jwt-decode';
 
 function Navbar() {
 
     let token = localStorage.getItem('authToken')
+    const access = jwtDecode(token)
     const navigate = useNavigate()
 
     const handleLogout = async () => {
