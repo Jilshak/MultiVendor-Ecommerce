@@ -3,8 +3,8 @@ import Navbar1 from '../../Components/Admin/Navbar1'
 function AdminCustomers() {
     return (
         <>
-            <div>
-                <h1>This is the admin customers</h1>
+            <div className='grid grid-cols-2 items-center justify-center'>
+                
             </div>
         </>
     )

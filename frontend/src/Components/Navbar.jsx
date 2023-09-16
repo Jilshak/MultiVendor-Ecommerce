@@ -7,7 +7,6 @@ import jwtDecode from 'jwt-decode';
 function Navbar() {
 
     let token = localStorage.getItem('authToken')
-    const access = jwtDecode(token)
     const navigate = useNavigate()
 
     const handleLogout = async () => {

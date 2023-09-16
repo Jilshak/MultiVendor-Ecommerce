@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import logo1 from '../Images/logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Login } from '../features/UserSlice'
+import jwtDecode from 'jwt-decode'
 
 function LoginPage() {
 
@@ -22,16 +22,28 @@ function LoginPage() {
             username: username,
             password: password
         }
-        await dispatch(Login(credential))
 
-        await navigate('/')
+        await dispatch(Login(credential))
+        let token = await localStorage.getItem('authToken')
+        let access = await jwtDecode(token)
+        if (access.is_superuser) {
+            await navigate('/admin/')
+        } else {
+            await navigate('/')
+        }
     }
 
     useEffect(() => {
-        let token = localStorage.getItem('authToken')
-        if (token) {
-            navigate('/')
+        const refresh = async () => {
+            let token = await localStorage.getItem('authToken')
+            let access = await jwtDecode(token)
+            if (access.is_superuser) {
+                await navigate('/admin/')
+            } else {
+                await navigate('/')
+            }
         }
+        refresh()
     }, [])
 
     return (
