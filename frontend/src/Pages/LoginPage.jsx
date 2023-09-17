@@ -49,14 +49,14 @@ function LoginPage() {
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse min-w-[450px]">
-                <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                <div className="card flex-shrink-0 w-full max-w-sm  hover:shadow-md hover:shadow-[#e5e4e4] shadow-[#e5e4e4] bg-base-100">
                     <div className="card-body">
                         <div className="form-control">
                             <input onChange={(e) => setUsername(e.target.value)} type="text" placeholder="username" className="input input-bordered" />
                         </div>
                         <div className="form-control my-5">
 
-                            <input onChange={(e) => setPassword(e.target.value)} type="text" placeholder="password" className="input input-bordered" />
+                            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="password" className="input input-bordered" />
 
                         </div>
                         <div className="form-control">

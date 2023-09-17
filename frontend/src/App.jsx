@@ -11,7 +11,6 @@ import WishlistPage from './Pages/WishlistPage';
 import ProfilePage from './Pages/ProfilePage';
 import CheckoutPage from './Pages/CheckoutPage';
 import OrderHistory from './Pages/OrderHistory';
-import jwtDecode from 'jwt-decode';
 import Dashboard from './Pages/Admin/Dashboard';
 import AdminProduct from './Pages/Admin/AdminProduct';
 import AdminCategories from './Pages/Admin/AdminCategories';
@@ -21,33 +20,15 @@ import AdminVendors from './Pages/Admin/AdminVendors';
 import AdminReport from './Pages/Admin/AdminReport';
 import AdminOrders from './Pages/Admin/AdminOrders';
 import AdminHome from './Pages/Admin/AdminHome';
-import { useEffect, useState } from 'react';
+import AdminRouteGuard from './utils/AdminRouteGuard'
 
 function App() {
-  const [validated, setValidated] = useState(null);
-
-  useEffect(() => {
-    const accessToken = async () => {
-      try {
-        const token = await localStorage.getItem('authToken');
-        const access = await jwtDecode(token);
-        await setValidated(access.is_superuser);
-        console.log(access)
-      } catch (error) {
-        console.error('Error decoding token:', error);
-
-        // Handle the error as needed, e.g., redirect to login
-      }
-    };
-
-    accessToken();
-  }, []);
 
   return (
     <Routes>
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<SignUpPage />} />
-      <Route element={<ProtectedRoutes validated={validated} />}>
+      <Route element={<ProtectedRoutes />}>
         <>
           <Route path='/' element={<HomePage />} />
           <Route path='/categories' element={<CategoriesPage />} />

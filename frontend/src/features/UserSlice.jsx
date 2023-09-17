@@ -43,6 +43,82 @@ export const Register = createAsyncThunk('register',
     }
 )
 
+//total no.of users in the website
+export const getUsers = createAsyncThunk('get_usres',
+    async () => {
+        try{
+            const request = await api.get(`user/`)
+            const response = request.data.length
+            if (request.status === 200){
+                return response
+            }
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const getBuyers = createAsyncThunk('get_buyers',
+    async () => {
+        try{
+            const request = await api.get(`user/`)
+            const response = request.data
+            if (request.status === 200){
+                const data = response.filter((item) => item.is_buyer && !item.is_seller && !item.is_reseller && !item.is_all)
+                return data
+            }
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const getSellers = createAsyncThunk('get_sellers',
+    async () => {
+        try{
+            const request = await api.get(`user/`)
+            const response = request.data
+            if (request.status === 200){
+                const data = response.filter((item) => item.is_seller && item.is_buyer && !item.is_reseller && !item.is_all)
+                return data
+            }
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const getResellers = createAsyncThunk('get_resellers',
+    async () => {
+        try{
+            const request = await api.get(`user/`)
+            const response = request.data
+            if (request.status === 200){
+                const data = response.filter((item) => item.is_reseller && item.is_buyer && !item.is_seller && !item.is_all)
+                return data
+            }
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const getAll = createAsyncThunk('getAll',
+    async () => {
+        try{
+            const request = await api.get(`user/`)
+            const response = request.data
+            if (request.status === 200){
+                const data = response.filter((item) => item.is_all && !item.is_buyer && !item.is_seller && !item.is_reseller)
+                return data
+            }
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
+)
+
+
 export const Login = createAsyncThunk('login',
     async (credential) => {
         try {
@@ -78,6 +154,11 @@ export const Login = createAsyncThunk('login',
 const initialState = {
     isLoading: true,
     data: [],
+    users: 0,
+    buyers: [],
+    sellers: [],
+    resellers: [],
+    all: [],
     msg: 'is still loading up!!!'
 }
 
@@ -98,6 +179,81 @@ const UserSlice = createSlice({
             state.msg = "The state has been loaded"
         },
         [Register.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+        
+        [getUsers.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getUsers.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.users = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getUsers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+
+        [getBuyers.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getBuyers.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.buyers = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getBuyers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+
+        [getSellers.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getSellers.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.sellers = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getSellers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+
+        [getResellers.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getResellers.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.resellers = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getResellers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+
+        [getAll.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getAll.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.all = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getAll.rejected]: (state) => {
             state.isLoading = false
             state.msg = 'The loading of the state has been finished with some problem.'
         },
