@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 export const Register = createAsyncThunk('register',
     async ({ username, password, firstname, lastname, role }) => {
         try {
-            console.log("This is the role: ", role==='3')
+            console.log("This is the role: ", role === '3')
             let credential = {
                 username: username,
                 password: password,
@@ -46,13 +46,13 @@ export const Register = createAsyncThunk('register',
 //total no.of users in the website
 export const getUsers = createAsyncThunk('get_usres',
     async () => {
-        try{
+        try {
             const request = await api.get(`user/`)
             const response = request.data.length
-            if (request.status === 200){
+            if (request.status === 200) {
                 return response
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -60,14 +60,14 @@ export const getUsers = createAsyncThunk('get_usres',
 
 export const getBuyers = createAsyncThunk('get_buyers',
     async () => {
-        try{
+        try {
             const request = await api.get(`user/`)
             const response = request.data
-            if (request.status === 200){
-                const data = response.filter((item) => item.is_buyer && !item.is_superuser && !item.is_seller && !item.is_reseller && !item.is_all)
+            if (request.status === 200) {
+                const data = response.filter((item) => item.is_buyer && !item.is_blocked && !item.is_superuser && !item.is_seller && !item.is_reseller && !item.is_all)
                 return data
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -75,14 +75,14 @@ export const getBuyers = createAsyncThunk('get_buyers',
 
 export const getSellers = createAsyncThunk('get_sellers',
     async () => {
-        try{
+        try {
             const request = await api.get(`user/`)
             const response = request.data
-            if (request.status === 200){
+            if (request.status === 200) {
                 const data = response.filter((item) => item.is_seller && item.is_buyer && !item.is_reseller && !item.is_all)
                 return data
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -90,14 +90,14 @@ export const getSellers = createAsyncThunk('get_sellers',
 
 export const getResellers = createAsyncThunk('get_resellers',
     async () => {
-        try{
+        try {
             const request = await api.get(`user/`)
             const response = request.data
-            if (request.status === 200){
+            if (request.status === 200) {
                 const data = response.filter((item) => item.is_reseller && item.is_buyer && !item.is_seller && !item.is_all)
                 return data
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -105,14 +105,14 @@ export const getResellers = createAsyncThunk('get_resellers',
 
 export const getAll = createAsyncThunk('getAll',
     async () => {
-        try{
+        try {
             const request = await api.get(`user/`)
             const response = request.data
-            if (request.status === 200){
+            if (request.status === 200) {
                 const data = response.filter((item) => item.is_all && !item.is_buyer && !item.is_seller && !item.is_reseller)
                 return data
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -151,6 +151,46 @@ export const Login = createAsyncThunk('login',
     }
 )
 
+export const DeleteUser = createAsyncThunk('delete_user',
+    async (id) => {
+        try {
+            const request = await api.delete(`user/${id}/`)
+            if (request.status == 200) {
+                await Swal.fire(
+                    {
+                        background: '#191C24',
+                        icon: 'success',
+                        title: 'Deleted!!',
+                        text: "The User has been deleted Successfully!!",
+                    }
+                )
+            }
+        } catch (error) {
+            console.log("Error while deleting: ", error)
+        }
+    }
+)
+
+export const BlockUser = createAsyncThunk('block_user',
+    async (id) => {
+        try {
+            const request = await api.patch(`user/${id}/`, { is_blocked: true })
+            if (request.status == 200) {
+                await Swal.fire(
+                    {
+                        background: '#191C24',
+                        icon: 'success',
+                        title: 'Blocked!!',
+                        text: "The User has been Blocked Successfully!!",
+                    }
+                )
+            }
+        } catch (error) {
+            console.log("Error while blocking: ", error)
+        }
+    }
+)
+
 const initialState = {
     isLoading: true,
     data: [],
@@ -183,7 +223,7 @@ const UserSlice = createSlice({
             state.msg = 'The loading of the state has been finished with some problem.'
         },
 
-        
+
         [getUsers.pending]: (state) => {
             state.isLoading = true
             state.msg = "The state is still loading!!"

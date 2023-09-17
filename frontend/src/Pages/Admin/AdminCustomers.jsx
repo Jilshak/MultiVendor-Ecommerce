@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBuyers } from '../../features/UserSlice'
+import { BlockUser, getBuyers } from '../../features/UserSlice'
 import noprofile from '../../icons/noprofile.png'
 function AdminCustomers() {
 
     const dispatch = useDispatch()
     const customer = useSelector((state) => state.users)
 
-    const [buyer, setBuyer] = useState()
+    const [buyer, setBuyer] = useState([])
     const [userdetails, setUserDetails] = useState()
 
     const [selected, setSelected] = useState(false)
 
     useEffect(() => {
         dispatch(getBuyers())
-    }, [customer.buyers.length])
+    }, [])
 
     useEffect(() => {
         if (customer.buyers.length >= 1) {
             setBuyer(customer.buyers)
         }
-    }, [])
+    }, [customer.buyers])
 
     const handleUser = async (id) => {
         Promise.resolve(setUserDetails(buyer.filter((item) => item.id == id)))
@@ -29,10 +29,15 @@ function AdminCustomers() {
         return
     }
 
+    const handleFilter = async (id) => {
+        await dispatch(BlockUser(id))
+        await setBuyer(prevBuyer => prevBuyer.filter((item) => item.id !== id))
+    }
+
     return (
         <>
             {
-                !customer.isLoading ?
+                !customer.isLoading && customer.buyers.length >= 1 ?
                     <>
                         <div className='grid lg:grid-cols-2 xs:grid-cols-1 gap-0 items-center justify-center'>
                             <div className='bg-[#15191E] object-contain min-h-[150px] max-w-[450px] relative top-24 lg:left-36 rounded-2xl mx-10'>
@@ -40,20 +45,25 @@ function AdminCustomers() {
                                     <input type="text" placeholder="Search..." className="input input-sm input-bordered  w-full relative" />
                                 </div>
                                 <div className='max-h-[70vh] overflow-y-auto'>
-                                    <ul className='mx-10 mt-3 '>
-                                        {
-                                            buyer?.map((item) => {
-                                                return (
-                                                    <li key={item.id} onClick={(e) => {
-                                                        handleUser(item.id)
-                                                    }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
-                                                        <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
-                                                        <h1 className='ms-2'>{item.username}</h1>
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
+                                    {
+                                        buyer && buyer.length >= 1 ?
+                                            <>
+                                                <ul className='mx-10 mt-3 '>
+                                                    {
+                                                        buyer.map((item) => {
+                                                            return (
+                                                                <li key={item.id} onClick={(e) => {
+                                                                    handleUser(item.id)
+                                                                }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
+                                                                    <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
+                                                                    <h1 className='ms-2'>{item.username}</h1>
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                            </> : <p>Nothing is there to load</p>
+                                    }
                                 </div>
                             </div>
                             <div className={selected ? `bg-[#15191E] object-contain min-h-[150px] lg:mt-0 xs:mt-32 relative lg:min-w-[650px] rounded-2xl mx-10 top-24` : `hidden`}>
@@ -79,13 +89,13 @@ function AdminCustomers() {
 
                                                     <div className="mt-32 text-center pb-12">
                                                         <h1 className="text-4xl font-medium text-[#6B7280]">{userdetails[0]?.username}</h1>
-                                                        <p className="font-light text-gray-600 mt-3">Bucharest, Romania</p>
+                                                        <p className="font-light text-gray-600 mt-3">{userdetails[0].is_blocked ? `Blocked` : `active`}</p>
 
                                                         <p className="mt-8 text-gray-500">Solution Manager - Creative Tim Officer</p>
                                                         <p className="mt-2 text-gray-500">University of Computer Science</p>
                                                     </div>
                                                     <div className='grid grid-cols-2 relative top-0.5 rounded-b-2xl'>
-                                                        <button className="btn rounded-none hover:btn-warning">Block</button>
+                                                        <button onClick={(e) => handleFilter(userdetails[0].id)} className="btn rounded-none hover:btn-warning">Block</button>
                                                         <button className="btn  hover:btn-error rounded-none">Delete</button>
                                                     </div>
                                                 </div>
