@@ -7,6 +7,7 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(blank=True, max_length=100)
     profile_image = models.ImageField(blank=True, upload_to='profile')
+    is_blocked = models.BooleanField(default=False)
     
     is_buyer = models.BooleanField(default=True)
     is_seller = models.BooleanField(default=False)

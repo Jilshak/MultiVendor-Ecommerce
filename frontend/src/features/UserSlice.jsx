@@ -64,7 +64,7 @@ export const getBuyers = createAsyncThunk('get_buyers',
             const request = await api.get(`user/`)
             const response = request.data
             if (request.status === 200){
-                const data = response.filter((item) => item.is_buyer && !item.is_seller && !item.is_reseller && !item.is_all)
+                const data = response.filter((item) => item.is_buyer && !item.is_superuser && !item.is_seller && !item.is_reseller && !item.is_all)
                 return data
             }
         }catch(error){
