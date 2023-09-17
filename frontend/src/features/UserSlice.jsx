@@ -64,7 +64,7 @@ export const getBuyers = createAsyncThunk('get_buyers',
             const request = await api.get(`user/`)
             const response = request.data
             if (request.status === 200) {
-                const data = response.filter((item) => item.is_buyer && !item.is_blocked && !item.is_superuser && !item.is_seller && !item.is_reseller && !item.is_all)
+                const data = response.filter((item) => item.is_buyer && !item.is_superuser && !item.is_seller && !item.is_reseller && !item.is_all)
                 return data
             }
         } catch (error) {
@@ -191,6 +191,26 @@ export const BlockUser = createAsyncThunk('block_user',
     }
 )
 
+export const UnblockUser = createAsyncThunk('unblock_user',
+    async (id) => {
+        try {
+            const request = await api.patch(`user/${id}/`, { is_blocked: false })
+            if (request.status == 200) {
+                await Swal.fire(
+                    {
+                        background: '#191C24',
+                        icon: 'success',
+                        title: 'UnBlocked!!',
+                        text: "The User has been UnBlocked Successfully!!",
+                    }
+                )
+            }
+        } catch (error) {
+            console.log("Error while blocking: ", error)
+        }
+    }
+)
+
 const initialState = {
     isLoading: true,
     data: [],
@@ -207,7 +227,22 @@ const UserSlice = createSlice({
     name: 'user_slice',
     initialState,
     reducers: {
-
+        blockUser: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToBlock = state.buyers.find(user => user.id === userId);
+            if (userToBlock) {
+                userToBlock.is_blocked = true;
+            }
+        },
+        unblockUser: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToUnblock = state.buyers.find(user => user.id === userId);
+            if (userToUnblock) {
+                userToUnblock.is_blocked = false;
+            }
+        },
     },
     extraReducers: {
         [Register.pending]: (state) => {
@@ -301,3 +336,4 @@ const UserSlice = createSlice({
 })
 
 export default UserSlice.reducer
+export const { blockUser, unblockUser } = UserSlice.actions;

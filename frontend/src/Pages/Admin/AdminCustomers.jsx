@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BlockUser, getBuyers } from '../../features/UserSlice'
+import { BlockUser, UnblockUser, blockUser, getBuyers, unblockUser } from '../../features/UserSlice'
 import noprofile from '../../icons/noprofile.png'
 function AdminCustomers() {
 
@@ -16,6 +16,14 @@ function AdminCustomers() {
         dispatch(getBuyers())
     }, [])
 
+    const handleBlock = async (id) => {
+        await dispatch(blockUser({ userId: id }));
+    }
+
+    const handleUnblock = async (id) => {
+        await dispatch(unblockUser({ userId: id }));
+    }
+
     useEffect(() => {
         if (customer.buyers.length >= 1) {
             setBuyer(customer.buyers)
@@ -29,10 +37,7 @@ function AdminCustomers() {
         return
     }
 
-    const handleFilter = async (id) => {
-        await dispatch(BlockUser(id))
-        await setBuyer(prevBuyer => prevBuyer.filter((item) => item.id !== id))
-    }
+
 
     return (
         <>
@@ -50,15 +55,28 @@ function AdminCustomers() {
                                             <>
                                                 <ul className='mx-10 mt-3 '>
                                                     {
-                                                        buyer.map((item) => {
-                                                            return (
-                                                                <li key={item.id} onClick={(e) => {
-                                                                    handleUser(item.id)
-                                                                }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
-                                                                    <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
-                                                                    <h1 className='ms-2'>{item.username}</h1>
-                                                                </li>
-                                                            )
+                                                        customer.buyers.map((item) => {
+                                                            if (!item.is_blocked) {
+                                                                return (
+                                                                    <li key={item.id} onClick={(e) => {
+                                                                        handleUser(item.id)
+                                                                    }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
+                                                                        <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
+                                                                        <h1 className='ms-2'>{item.username}</h1>
+                                                                        <h1 className='text-sm text-green-400 relative left-44'>Active</h1>
+                                                                    </li>
+                                                                )
+                                                            } else {
+                                                                return (
+                                                                    <li key={item.id} onClick={(e) => {
+                                                                        handleUser(item.id)
+                                                                    }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
+                                                                        <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
+                                                                        <h1 className='ms-2'>{item.username}</h1>
+                                                                        <h1 className='text-sm text-orange-400 relative left-44'>Blocked</h1>
+                                                                    </li>
+                                                                )
+                                                            }
                                                         })
                                                     }
                                                 </ul>
@@ -95,7 +113,14 @@ function AdminCustomers() {
                                                         <p className="mt-2 text-gray-500">University of Computer Science</p>
                                                     </div>
                                                     <div className='grid grid-cols-2 relative top-0.5 rounded-b-2xl'>
-                                                        <button onClick={(e) => handleFilter(userdetails[0].id)} className="btn rounded-none hover:btn-warning">Block</button>
+                                                        {
+                                                            !userdetails[0].is_blocked ?
+                                                                <>
+                                                                    <button onClick={(e) => handleBlock(userdetails[0].id)} className="btn rounded-none hover:btn-warning">Block</button>
+                                                                </>
+                                                                :
+                                                                <button onClick={(e) => handleUnblock(userdetails[0].id)} className="btn rounded-none hover:btn-success">Unblock</button>
+                                                        }
                                                         <button className="btn  hover:btn-error rounded-none">Delete</button>
                                                     </div>
                                                 </div>
