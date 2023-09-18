@@ -47,18 +47,23 @@ function Navbar() {
                                 </ul>
                             </details>
                         </li>
-                        <Link to='/addproudcts'>
-                            <li className='text-lg'>
-                                {
-                                    access.is_seller ?
-                                        <>
-                                            <li >
-                                                Add Product
-                                            </li>
-                                        </> : null
-                                }
-                            </li>
-                        </Link>
+                        {
+                            token ?
+                                <>
+                                    <Link to='/addproudcts'>
+                                        <li className='text-lg'>
+                                            {
+                                                access?.is_seller ?
+                                                    <>
+                                                        <li >
+                                                            Add Product
+                                                        </li>
+                                                    </> : null
+                                            }
+                                        </li>
+                                    </Link>
+                                </> : null
+                        }
                     </ul>
                 </div>
                 <div className="flex-none mx-5">

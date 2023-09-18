@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../services/Axios'
 import Swal from 'sweetalert2'
+import jwtDecode from 'jwt-decode'
 
 export const Register = createAsyncThunk('register',
     async ({ username, password, firstname, lastname, role }) => {
@@ -36,6 +37,20 @@ export const Register = createAsyncThunk('register',
                         text: "Somthing happened while you were creating the account",
                     }
                 )
+            }
+        } catch (error) {
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const getMyProfile = createAsyncThunk('my_profile',
+    async (id) => {
+        try {
+            const request = await api.get(`user/${id}/`)
+            const response = request.data
+            if (request.status == 200) {
+                return response
             }
         } catch (error) {
             console.log("Error: ", error)
@@ -123,10 +138,10 @@ export const getBlockedUsers = createAsyncThunk('get_blocked_user',
         try {
             const request = await api.get(`user/`)
             const response = request.data
-            if (request.status == 200){
+            if (request.status == 200) {
                 let data = response.filter((item) => item.is_blocked)
                 return data
-            } 
+            }
         } catch (error) {
             console.log("Error for get blocked User: ", error)
         }
@@ -142,14 +157,28 @@ export const Login = createAsyncThunk('login',
             if (request.status == 200) {
                 await localStorage.removeItem('guestToken')
                 await localStorage.setItem('authToken', response.access)
-                await Swal.fire(
-                    {
-                        background: '#191C24',
-                        icon: 'success',
-                        title: 'Login Successful!',
-                        text: "Welcome!!",
-                    }
-                )
+                let token = await localStorage.getItem('authToken')
+                let access = await jwtDecode(token)
+                if (access.is_blocked) {
+                    await localStorage.removeItem('authToken')
+                    await Swal.fire(
+                        {
+                            background: '#191C24',
+                            icon: 'error',
+                            title: 'Blocked!',
+                            text: "You have been blocked by the Admin!!",
+                        }
+                    )
+                } else {
+                    await Swal.fire(
+                        {
+                            background: '#191C24',
+                            icon: 'success',
+                            title: 'Login Successful!',
+                            text: "Welcome!!",
+                        }
+                    )
+                }
             } else {
                 await Swal.fire(
                     {
@@ -229,6 +258,7 @@ export const UnblockUser = createAsyncThunk('unblock_user',
 const initialState = {
     isLoading: true,
     data: [],
+    profile: [],
     users: 0,
     buyers: [],
     sellers: [],
@@ -381,7 +411,7 @@ const UserSlice = createSlice({
             state.msg = 'The loading of the state has been finished with some problem.'
         },
 
-        
+
         [getBlockedUsers.pending]: (state) => {
             state.isLoading = true
             state.msg = "The state is still loading!!"
@@ -392,6 +422,21 @@ const UserSlice = createSlice({
             state.msg = "The state has been loaded"
         },
         [getBlockedUsers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
+
+
+        [getMyProfile.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getMyProfile.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.profile = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getMyProfile.rejected]: (state) => {
             state.isLoading = false
             state.msg = 'The loading of the state has been finished with some problem.'
         },

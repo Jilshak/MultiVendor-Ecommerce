@@ -24,12 +24,14 @@ function LoginPage() {
         }
 
         await dispatch(Login(credential))
-        let token = await localStorage.getItem('authToken')
-        let access = await jwtDecode(token)
-        if (access.is_superuser) {
-            await navigate('/admin/')
-        } else {
-            await navigate('/')
+        if (localStorage.getItem('authToken')) {
+            let token = await localStorage.getItem('authToken')
+            let access = await jwtDecode(token)
+            if (access.is_superuser) {
+                await navigate('/admin/')
+            } else {
+                await navigate('/')
+            }
         }
     }
 
