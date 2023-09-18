@@ -7,6 +7,7 @@ import jwtDecode from 'jwt-decode';
 function Navbar() {
 
     let token = localStorage.getItem('authToken')
+    let access = jwtDecode(token)
     const navigate = useNavigate()
 
     const handleLogout = async () => {
@@ -46,6 +47,18 @@ function Navbar() {
                                 </ul>
                             </details>
                         </li>
+                        <Link to='/addproudcts'>
+                            <li className='text-lg'>
+                                {
+                                    access.is_seller ?
+                                        <>
+                                            <li >
+                                                Add Product
+                                            </li>
+                                        </> : null
+                                }
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 <div className="flex-none mx-5">

@@ -118,6 +118,21 @@ export const getAll = createAsyncThunk('getAll',
     }
 )
 
+export const getBlockedUsers = createAsyncThunk('get_blocked_user',
+    async () => {
+        try {
+            const request = await api.get(`user/`)
+            const response = request.data
+            if (request.status == 200){
+                let data = response.filter((item) => item.is_blocked)
+                return data
+            } 
+        } catch (error) {
+            console.log("Error for get blocked User: ", error)
+        }
+    }
+)
+
 
 export const Login = createAsyncThunk('login',
     async (credential) => {
@@ -219,6 +234,7 @@ const initialState = {
     sellers: [],
     resellers: [],
     all: [],
+    blocked: [],
     msg: 'is still loading up!!!'
 }
 
@@ -239,6 +255,38 @@ const UserSlice = createSlice({
             const { userId } = action.payload;
             // Find the user by userId and update their block status in the state
             const userToUnblock = state.buyers.find(user => user.id === userId);
+            if (userToUnblock) {
+                userToUnblock.is_blocked = false;
+            }
+        },
+        blockVendor: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToBlock = state.sellers.find(user => user.id === userId);
+            if (userToBlock) {
+                userToBlock.is_blocked = true;
+            }
+        },
+        unblockVendor: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToUnblock = state.sellers.find(user => user.id === userId);
+            if (userToUnblock) {
+                userToUnblock.is_blocked = false;
+            }
+        },
+        blockReseller: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToBlock = state.resellers.find(user => user.id === userId);
+            if (userToBlock) {
+                userToBlock.is_blocked = true;
+            }
+        },
+        unblockReseller: (state, action) => {
+            const { userId } = action.payload;
+            // Find the user by userId and update their block status in the state
+            const userToUnblock = state.resellers.find(user => user.id === userId);
             if (userToUnblock) {
                 userToUnblock.is_blocked = false;
             }
@@ -332,8 +380,23 @@ const UserSlice = createSlice({
             state.isLoading = false
             state.msg = 'The loading of the state has been finished with some problem.'
         },
+
+        
+        [getBlockedUsers.pending]: (state) => {
+            state.isLoading = true
+            state.msg = "The state is still loading!!"
+        },
+        [getBlockedUsers.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.blocked = action.payload
+            state.msg = "The state has been loaded"
+        },
+        [getBlockedUsers.rejected]: (state) => {
+            state.isLoading = false
+            state.msg = 'The loading of the state has been finished with some problem.'
+        },
     },
 })
 
 export default UserSlice.reducer
-export const { blockUser, unblockUser } = UserSlice.actions;
+export const { blockUser, unblockUser, blockReseller, unblockReseller, blockVendor, unblockVendor } = UserSlice.actions;

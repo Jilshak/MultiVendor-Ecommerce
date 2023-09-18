@@ -18,10 +18,14 @@ function AdminCustomers() {
 
     const handleBlock = async (id) => {
         await dispatch(blockUser({ userId: id }));
+        await dispatch(BlockUser(id))
+        setSelected(false)
     }
 
     const handleUnblock = async (id) => {
         await dispatch(unblockUser({ userId: id }));
+        await dispatch(UnblockUser(id))
+        setSelected(false)
     }
 
     useEffect(() => {
@@ -37,6 +41,21 @@ function AdminCustomers() {
         return
     }
 
+    //search functionality
+    const [find, setFind] = useState()
+    const searchItem = async (e) => {
+        if (!find){
+            setFind(buyer)
+        }
+        if (e.target.value === ''){
+            setBuyer(find)
+        }else{
+            setBuyer(await buyer.filter((item)=> {
+                return item.username.startsWith(e.target.value)
+            }))
+        }
+    }
+
 
 
     return (
@@ -47,7 +66,7 @@ function AdminCustomers() {
                         <div className='grid lg:grid-cols-2 xs:grid-cols-1 gap-0 items-center justify-center'>
                             <div className='bg-[#15191E] object-contain min-h-[150px] max-w-[450px] relative top-24 lg:left-36 rounded-2xl mx-10'>
                                 <div className='relative mx-10 mt-5'>
-                                    <input type="text" placeholder="Search..." className="input input-sm input-bordered  w-full relative" />
+                                    <input onChange={searchItem} type="text" placeholder="Search..." className="input input-sm input-bordered  w-full relative" />
                                 </div>
                                 <div className='max-h-[70vh] overflow-y-auto'>
                                     {
@@ -55,7 +74,7 @@ function AdminCustomers() {
                                             <>
                                                 <ul className='mx-10 mt-3 '>
                                                     {
-                                                        customer.buyers.map((item) => {
+                                                        buyer.map((item) => {
                                                             if (!item.is_blocked) {
                                                                 return (
                                                                     <li key={item.id} onClick={(e) => {
@@ -63,7 +82,7 @@ function AdminCustomers() {
                                                                     }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
                                                                         <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
                                                                         <h1 className='ms-2'>{item.username}</h1>
-                                                                        <h1 className='text-sm text-green-400 relative left-44'>Active</h1>
+                                                                        <h1 className='text-sm text-green-400 absolute right-10 me-2'>Active</h1>
                                                                     </li>
                                                                 )
                                                             } else {
@@ -73,7 +92,7 @@ function AdminCustomers() {
                                                                     }} className='flex cursor-pointer items-center p-1 my-5 rounded-lg hover:bg-[#2B3039]'>
                                                                         <img className='h-12 ms-2' src={item.profile_image ? item.profile_image : noprofile} alt="" />
                                                                         <h1 className='ms-2'>{item.username}</h1>
-                                                                        <h1 className='text-sm text-orange-400 relative left-44'>Blocked</h1>
+                                                                        <h1 className='text-sm text-orange-400 absolute right-10 me-2'>Blocked</h1>
                                                                     </li>
                                                                 )
                                                             }

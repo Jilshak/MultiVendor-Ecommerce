@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getBuyers, getResellers, getSellers, getUsers } from '../../features/UserSlice'
+import { getBlockedUsers, getBuyers, getResellers, getSellers, getUsers } from '../../features/UserSlice'
 
 function Dashboard() {
     const dispatch = useDispatch()
@@ -13,6 +13,7 @@ function Dashboard() {
         dispatch(getBuyers())
         dispatch(getSellers())
         dispatch(getResellers())
+        dispatch(getBlockedUsers())
     }, [users.users])
 
 
@@ -42,6 +43,11 @@ function Dashboard() {
                                 <div className="stat place-items-center">
                                     <div className="stat-title">Resellers</div>
                                     <div className="stat-value">{users.resellers.length}</div>
+                                </div>
+                                
+                                <div className="stat place-items-center">
+                                    <div className="stat-title">Blocked Users</div>
+                                    <div className="stat-value">{users.blocked.length}</div>
                                 </div>
 
                             </div>

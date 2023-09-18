@@ -21,6 +21,7 @@ import AdminReport from './Pages/Admin/AdminReport';
 import AdminOrders from './Pages/Admin/AdminOrders';
 import AdminHome from './Pages/Admin/AdminHome';
 import AdminRouteGuard from './utils/AdminRouteGuard'
+import AddProductPage from './Pages/AddProductPage';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route path='/wishlist' element={<WishlistPage />} />
           <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='/orders' element={<OrderHistory />} />
+          <Route path='/addproudcts' element={<AddProductPage />} />
 
           <Route path='/admin/' element={<AdminHome />}>
             <Route index element={<Dashboard />} />
