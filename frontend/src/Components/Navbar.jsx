@@ -62,6 +62,18 @@ function Navbar() {
                                             }
                                         </li>
                                     </Link>
+                                    <Link to='/myproducts'>
+                                        <li className='text-lg'>
+                                            {
+                                                access?.is_seller ?
+                                                    <>
+                                                        <li >
+                                                            My Products
+                                                        </li>
+                                                    </> : null
+                                            }
+                                        </li>
+                                    </Link>
                                 </> : null
                         }
                     </ul>

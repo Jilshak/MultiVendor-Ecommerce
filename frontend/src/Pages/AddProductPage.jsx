@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Navbar from '../Components/Navbar'
 
 function AddProductPage() {
 
@@ -12,8 +13,11 @@ function AddProductPage() {
 
   return (
     <div className='h-screen '>
+      <div className='sticky top-0'>
+        <Navbar />
+      </div>
       <div className='grid lg:grid-cols-1 mx-10'>
-        <div className='lg:h-[650px] lg:w-[800px] relative top-12 mx-auto rounded-xl bg-[#1A1F25]'>
+        <div className='lg:h-[600px] lg:w-[800px] relative top-10 mx-auto rounded-xl bg-[#1A1F25]'>
           <div className='flex items-center lg:justify-start sm:justify-start xs:justify-center ms-7 text-2xl font-semibold mt-4 mb-2'>
             <p>Add Your Product</p>
           </div>

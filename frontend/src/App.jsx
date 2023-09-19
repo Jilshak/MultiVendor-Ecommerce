@@ -22,6 +22,8 @@ import AdminOrders from './Pages/Admin/AdminOrders';
 import AdminHome from './Pages/Admin/AdminHome';
 import AdminRouteGuard from './utils/AdminRouteGuard'
 import AddProductPage from './Pages/AddProductPage';
+import MyProductsPage from './Pages/MyProductsPage';
+import MyProductReportPage from './Pages/MyProductReportPage';
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
           <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='/orders' element={<OrderHistory />} />
           <Route path='/addproudcts' element={<AddProductPage />} />
+          <Route path='/myproducts' element={<MyProductsPage />} />
+          <Route path='/myproducts_report_page' element={<MyProductReportPage />} />
 
           <Route path='/admin/' element={<AdminHome />}>
             <Route index element={<Dashboard />} />
