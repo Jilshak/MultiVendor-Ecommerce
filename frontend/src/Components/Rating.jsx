@@ -1,15 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-function Rating() {
-    return (
-        <div className="rating rating-sm">
-            <input type="radio" name="rating-1" className="mask mask-star " />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-            <input type="radio" name="rating-1" className="mask mask-star" checked />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-        </div>
-    )
+function Rating(props) {
+  const { rating } = props;
+
+  const stars = Array(rating).fill(null).map((_, index) => (
+    <input
+      key={index}
+      type="radio"
+      name="rating"
+      className={`mask mask-star ${index < rating ? 'filled' : ''}`}
+    />
+  ));
+
+  return <div className="rating rating-sm">{stars}</div>;
 }
 
-export default Rating
+export default Rating;

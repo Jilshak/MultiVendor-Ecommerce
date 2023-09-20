@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSellerProducts } from '../features/SellersSlice'
+import Rating from '../Components/Rating'
 import jwtDecode from 'jwt-decode'
 function MyProductsPage() {
 
@@ -39,7 +40,7 @@ function MyProductsPage() {
                                                         <div className="sm:ml-4">
                                                             <div className="mt-5 sm:mt-0">
                                                                 <h2 className="text-lg font-bold text-[#A6ADBA]">{item.title}</h2>
-                                                                <p className="mt-1 text-xs text-[#A6ADBA]">Product brand</p>
+                                                                <p className="mt-1 text-xs text-[#A6ADBA]"><Rating rating={item.rating}/></p>
                                                                 <p className="text-lg font-bold">$ {item.price}</p>
                                                             </div>
                                                         </div>

@@ -83,7 +83,7 @@ function HomePage() {
                             return (
                               <Link to={`product/${item.id}`}>
                                 <div className="carousel-item me-5">
-                                  <Featured/>
+                                  <Featured productData={item}/>
                                 </div>
                               </Link>
                             )
