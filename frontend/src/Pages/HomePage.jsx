@@ -10,6 +10,8 @@ import jwtDecode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyProfile } from '../features/UserSlice'
+import { getProduct } from '../features/CategorySlice'
+import { getAllProducts } from '../features/ProductSlice'
 
 function HomePage() {
 
@@ -51,6 +53,12 @@ function HomePage() {
     navigate('/login')
   }
 
+  const allProducts = useSelector((state) => state.products)
+
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [])
+
   return (
     profile && !profile.profile.is_blocked || localStorage.getItem('guestToken') ?
       <>
@@ -66,24 +74,23 @@ function HomePage() {
               <p className='text-3xl font-semibold left-14 top-5 relative max-w-[300px]'>Featured Products</p>
               <div className='mx-[50px] min-h-[300px]  bg-[#1A1F25] my-8'>
                 <div className="carousel relative top-8 carousel-center bg-[#1A1F25] overflow-x-auto rounded-box" style={{ maxWidth: '100%' }}>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
-                  <div className="carousel-item me-5">
-                    <Featured />
-                  </div>
+
+                  {
+                    allProducts && !allProducts.isLoading ?
+                      <>
+                        {
+                          allProducts.products.map((item) => {
+                            return (
+                              <Link to={`product/${item.id}`}>
+                                <div className="carousel-item me-5">
+                                  <Featured/>
+                                </div>
+                              </Link>
+                            )
+                          })
+                        }
+                      </> : null
+                  }
 
                 </div>
               </div>

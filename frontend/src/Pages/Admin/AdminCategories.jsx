@@ -71,7 +71,7 @@ function AdminCategories() {
                                         {
                                             items?.map((item) => {
                                                 return (
-                                                    <li onClick={() => showProducts(item.id)} className=' p-2 mx-6 bg-[#1C2128] my-2 rounded-md hover:bg-[#2B3039]'>{item.category}</li>
+                                                    <li key={item.id} onClick={() => showProducts(item.id)} className=' p-2 mx-6 bg-[#1C2128] my-2 rounded-md hover:bg-[#2B3039]'>{item.category}</li>
                                                 )
                                             })
                                         }
@@ -103,11 +103,11 @@ function AdminCategories() {
             {
                 toggle ?
                     <>
-                        <div className='bg-[#15191E] grid grid-cols-3 grid-rows-4 min-h-[450px] mx-10 relative top-14 lg:right-36'>
+                        <div className='bg-[#15191E] grid grid-cols-3 grid-rows-4 min-h-[450px] mx-10 relative top-14 lg:right-36 overflow-y-auto'>
                             {
                                 category?.product.map((item) => {
                                     return (
-                                        <div className="card my-3 mx-auto relative w-52 h-[100px] bg-base-100 shadow-xl image-full hover:shadow-[#bfbbbb] hover:scale-105 hover:shadow-md">
+                                        <div key={item.id} className="card my-3 mx-auto relative w-52 h-[100px] bg-base-100 shadow-xl image-full hover:shadow-[#bfbbbb] hover:scale-105 hover:shadow-md">
                                             <figure>
                                                 <img className='w-full' src={`https://source.unsplash.com/vpOeXr5wmR4/`} alt="Shoes" />
                                             </figure>
