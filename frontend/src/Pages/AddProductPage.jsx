@@ -33,7 +33,7 @@ function AddProductPage() {
       rom: rom,
       additional: deviceSpecification
     }
-    await dispatch(credentials)
+    await dispatch()
   }
 
   return (
@@ -48,7 +48,7 @@ function AddProductPage() {
           </div>
           <div className='grid grid-rows-2'>
             <div className='grid grid-cols-2 mx-5 mt-5'>
-              <button type="button" className="flex bg-[#353c4f]  items-center justify-center rounded-md min-h-[120px]">
+              <button type="button" className="flex bg-[#353c4f]  items-center justify-center rounded-md min-h-[100px]">
                 <label htmlFor="product_image_1">
                   <span className='cursor-pointer py-5 flex items-center justify-center px-10  text-lg '>
                     <p>Photo 1</p>
@@ -56,7 +56,7 @@ function AddProductPage() {
                   <input type="file" name='product_image_1' accept='application/msword,application/pdf' id='product_image_1' onChange={(e) => uploadFiles(e.target.files[0])} className='hidden' />
                 </label>
               </button>
-              <button type="button" className="flex bg-[#353c4f] mx-2 items-center justify-center rounded-md min-h-[120px]">
+              <button type="button" className="flex bg-[#353c4f] mx-2 items-center justify-center rounded-md min-h-[100px]">
                 <label htmlFor="product_image_2">
                   <span className='cursor-pointer py-5 flex items-center justify-center px-10  text-lg '>
                     <p>Photo 2</p>
@@ -66,7 +66,7 @@ function AddProductPage() {
               </button>
             </div>
             <div className='grid grid-cols-2  mx-5 mt-2 mb-4 '>
-              <button type="button" className="flex bg-[#353c4f]  items-center justify-center rounded-md min-h-[120px]">
+              <button type="button" className="flex bg-[#353c4f]  items-center justify-center rounded-md min-h-[100px]">
                 <label htmlFor="product_image_3">
                   <span className='cursor-pointer py-5 flex items-center justify-center px-10  text-lg '>
                     <p>Photo 3</p>
@@ -74,7 +74,7 @@ function AddProductPage() {
                   <input type="file" name='product_image_3' accept='application/msword,application/pdf' id='product_image_3' onChange={(e) => uploadFiles(e.target.files[0])} className='hidden' />
                 </label>
               </button>
-              <button type="button" className="flex bg-[#353c4f] mx-2 items-center justify-center rounded-md min-h-[120px]">
+              <button type="button" className="flex bg-[#353c4f] mx-2 items-center justify-center rounded-md min-h-[100px]">
                 <label htmlFor="product_image_4">
                   <span className='cursor-pointer py-5 flex items-center justify-center px-10  text-lg '>
                     <p>Photo 4</p>
@@ -118,6 +118,9 @@ function AddProductPage() {
               </div>
             </div>
             <textarea onChange={(e) => setDescription(e.target.value)} className="textarea" placeholder="Product Description"></textarea>
+          </div>
+          <div className='flex items-center justify-center'>
+            <button onClick={addProducts} className="btn btn-neutral w-1/3">ADD</button>
           </div>
         </div>
       </div>
