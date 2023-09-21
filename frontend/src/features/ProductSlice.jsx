@@ -1,18 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../services/Axios'
+import Swal from 'sweetalert2'
 
 
 
 export const selectedProduct = createAsyncThunk('get_selected_product',
     async (id) => {
-        try{
+        try {
             const request = await api.get(`products/products/`)
             const response = request.data
-            if (request.status == 200){
+            if (request.status == 200) {
                 const data = response.filter((item) => item.id == id)
                 return data
             }
-        }catch(error){
+        } catch (error) {
             console.log("Error: ", error)
         }
     }
@@ -20,13 +21,42 @@ export const selectedProduct = createAsyncThunk('get_selected_product',
 
 export const getAllProducts = createAsyncThunk('get_all_products',
     async (id) => {
-        try{
+        try {
             const request = await api.get(`products/products/`)
             const response = request.data
-            if (request.status == 200){
+            if (request.status == 200) {
                 return response
             }
-        }catch(error){
+        } catch (error) {
+            console.log("Error: ", error)
+        }
+    }
+)
+
+export const createProduct = createAsyncThunk('create_products',
+    async (credentials) => {
+        try {
+            const requst = await api.post(`products/products/`, credentials)
+            if (requst.status == 201) {
+                await Swal.fire(
+                    {
+                        background: '#191C24',
+                        icon: 'success',
+                        title: 'Added!',
+                        text: "Your Product has been Added!!",
+                    }
+                )
+            } else {
+                await Swal.fire(
+                    {
+                        background: '#191C24',
+                        icon: 'error',
+                        title: 'Not Added!',
+                        text: "Something went wrong while adding the product!",
+                    }
+                )
+            }
+        } catch (error) {
             console.log("Error: ", error)
         }
     }

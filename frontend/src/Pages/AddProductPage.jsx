@@ -10,8 +10,8 @@ function AddProductPage() {
   const [categories, setCategory] = useState()
   const [price, setPrice] = useState()
   const [deviceSpecification, setDeviceSpecification] = useState('')
-  const [ram, setRam] = useState('')
-  const [rom, setRom] = useState('')
+  const [ram, setRam] = useState()
+  const [rom, setRom] = useState()
 
   const dispatch = useDispatch()
   const category = useSelector((state) => state.categories)
@@ -19,6 +19,22 @@ function AddProductPage() {
   useEffect(() => {
     dispatch(getCategories())
   }, [])
+
+
+  //also has to add the images to the credentials
+  //then have to call this add products function.
+  const addProducts = async () => {
+    let credentials = {
+      title: title,
+      description: description,
+      category: categories,
+      price: price,
+      ram: ram,
+      rom: rom,
+      additional: deviceSpecification
+    }
+    await dispatch(credentials)
+  }
 
   return (
     <div className='h-screen '>
@@ -89,15 +105,15 @@ function AddProductPage() {
               <input onChange={(e) => setPrice(e.target.value)} type="text" placeholder="Product Price" className="input input-sm mb-3  w-full max-w-xs" />
               <input onChange={(e) => setDeviceSpecification(e.target.value)} type="text" placeholder="Device Specification" className="input input-sm mb-3  w-full max-w-xs" />
               <div className='flex items-center justify-center'>
-                <select className="select select-sm me-12 mb-3  w-full max-w-xs">
+                <select onChange={(e) => setRom(e.target.value)} className="select select-sm me-12 mb-3  w-full max-w-xs">
                   <option disabled selected>Select ROM</option>
-                  <option>512 GB</option>
-                  <option>1024 GB</option>
+                  <option defaultChecked value={1}>512 GB</option>
+                  <option value={2}>1024 GB</option>
                 </select>
-                <select className="select select-sm me-12 mb-3  w-full max-w-xs">
+                <select onChange={(e) => setRam(e.target.value)} className="select select-sm me-12 mb-3  w-full max-w-xs">
                   <option disabled selected>Select RAM</option>
-                  <option>8 GB</option>
-                  <option>16 GB</option>
+                  <option defaultChecked value={1}>8 GB</option>
+                  <option value={2}>16 GB</option>
                 </select>
               </div>
             </div>
