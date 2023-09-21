@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../services/Axios'
-import axios from 'axios'
 
 
 export const getCategories = createAsyncThunk('get_categories',

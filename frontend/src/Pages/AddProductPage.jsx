@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategories } from '../features/CategorySlice'
 
 function AddProductPage() {
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [categories, setCategory] = useState()
   const [price, setPrice] = useState()
-  const [additional, setAdditional] = useState({
-    color: '',
-    size: '',
-  })
+  const [deviceSpecification, setDeviceSpecification] = useState('')
+  const [ram, setRam] = useState('')
+  const [rom, setRom] = useState('')
+
+  const dispatch = useDispatch()
+  const category = useSelector((state) => state.categories)
+
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [])
 
   return (
     <div className='h-screen '>
@@ -61,20 +70,38 @@ function AddProductPage() {
           </div>
           <div className='mt-2 mx-5 mb-2 grid grid-cols-2 gap-5'>
             <div>
-              <select className="select select-sm w-full max-w-xs mb-3">
+              <select onChange={(e) => setCategory(e.target.value)} className="select select-sm w-full max-w-xs mb-3">
                 <option disabled selected>Select Category</option>
-                <option>Homer</option>
-                <option>Marge</option>
-                <option>Bart</option>
-                <option>Lisa</option>
-                <option>Maggie</option>
+                {
+                  category && category.data.length > 0 ?
+                    <>
+                      {
+                        category.data.map((item) => {
+                          return (
+                            <option key={item.id} value={item.category}>{item.category}</option>
+                          )
+                        }, [])
+                      }
+                    </> : null
+                }
               </select>
-              <input type="text" placeholder="Product Title" className="input input-sm mb-3  w-full max-w-xs" />
-              <input type="text" placeholder="Product Price" className="input input-sm mb-3  w-full max-w-xs" />
-              <input type="text" placeholder="Product features sizes/colors/" className="input input-sm mb-3  w-full max-w-xs" />
-              <input type="text" placeholder="Product Title" className="input input-sm mb-3  w-full max-w-xs" />
+              <input onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Product Title" className="input input-sm mb-3  w-full max-w-xs" />
+              <input onChange={(e) => setPrice(e.target.value)} type="text" placeholder="Product Price" className="input input-sm mb-3  w-full max-w-xs" />
+              <input onChange={(e) => setDeviceSpecification(e.target.value)} type="text" placeholder="Device Specification" className="input input-sm mb-3  w-full max-w-xs" />
+              <div className='flex items-center justify-center'>
+                <select className="select select-sm me-12 mb-3  w-full max-w-xs">
+                  <option disabled selected>Select ROM</option>
+                  <option>512 GB</option>
+                  <option>1024 GB</option>
+                </select>
+                <select className="select select-sm me-12 mb-3  w-full max-w-xs">
+                  <option disabled selected>Select RAM</option>
+                  <option>8 GB</option>
+                  <option>16 GB</option>
+                </select>
+              </div>
             </div>
-            <textarea className="textarea" placeholder="Product Description"></textarea>
+            <textarea onChange={(e) => setDescription(e.target.value)} className="textarea" placeholder="Product Description"></textarea>
           </div>
         </div>
       </div>

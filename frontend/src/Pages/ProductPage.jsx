@@ -12,7 +12,6 @@ function ProductPage() {
 
     useEffect(() => {
         dispatch(selectedProduct(id))
-        console.log(productDetails.data)
     }, [])
 
     return (
@@ -26,7 +25,7 @@ function ProductPage() {
                                     <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
                                     <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                         <h2 class="text-sm title-font text-[#A6ADBA] tracking-widest">The catcher in the Rye</h2>
-                                        <h1 class="text-[#A6ADBA] text-3xl title-font font-medium mb-1">{productDetails.data[0].title}</h1>
+                                        <h1 class="text-[#A6ADBA] text-3xl title-font font-medium mb-1">{productDetails?.data[0]?.title}</h1>
                                         <div class="flex mb-4">
                                             <span class="flex items-center">
                                                 <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -44,7 +43,7 @@ function ProductPage() {
                                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
                                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                                 </svg>
-                                                <span class="text-gray-600 ml-3">{productDetails.data[0].rating ? productDetails.data[0].rating : 0}</span>
+                                                <span class="text-gray-600 ml-3">{productDetails?.data[0]?.rating ? productDetails?.data[0].rating : 0}</span>
                                             </span>
                                             <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
                                                 <a class="text-gray-500">
@@ -64,7 +63,7 @@ function ProductPage() {
                                                 </a>
                                             </span>
                                         </div>
-                                        <p class="leading-relaxed">{productDetails.data[0].description}</p>
+                                        <p class="leading-relaxed">{productDetails?.data[0]?.description}</p>
                                         <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                                             <div class="flex">
                                                 <span class="mr-3">Color</span>
@@ -90,7 +89,7 @@ function ProductPage() {
                                             </div>
                                         </div>
                                         <div class="flex">
-                                            <span class="title-font font-medium text-2xl text-[#A6ADBA]">${productDetails.data[0].price}</span>
+                                            <span class="title-font font-medium text-2xl text-[#A6ADBA]">${productDetails?.data[0]?.price}</span>
                                             <button className="btn btn-outline mx-5 relative bottom-2">ADD TO CART</button>
                                             <button class="rounded-full w-10 h-10 hover:bg-[#A6ADBA] p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                                 <svg className='h-7' fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
